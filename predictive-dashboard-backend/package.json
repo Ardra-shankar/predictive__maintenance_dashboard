@@ -1,0 +1,28 @@
+{
+  "name": "predictive-dashboard-backend",
+  "version": "1.0.0",
+  "description": "NASA Turbofan Predictive Maintenance API",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "child_process": "^1.0.2",
+    "cors": "^2.8.6",
+    "csv-parser": "^3.2.0",
+    "express": "^4.22.1",
+    "ml-random-forest": "^2.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  },
+  "keywords": [
+    "predictive-maintenance",
+    "NASA",
+    "turbofan",
+    "machine-learning"
+  ],
+  "author": "MCA Student",
+  "license": "MIT"
+}

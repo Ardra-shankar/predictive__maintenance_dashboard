@@ -1,0 +1,5 @@
+node_modules/
+.venv/
+data/
+*.pkl
+__pycache__/
