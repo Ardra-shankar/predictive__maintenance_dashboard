@@ -12,7 +12,7 @@ app.get("/", (req, res) => {
 });
 
 
-// ================= DEMO ENGINE APIs =================
+//  DEMO ENGINE APIs 
 
 const demoEngines = [1,2,3,4,5];
 
@@ -60,7 +60,7 @@ app.post("/api/predict",(req,res)=>{
 });
 
 
-// ================= START SERVER =================
+// START SERVER 
 
 app.listen(PORT,()=>{
     console.log("🚀 ML Backend Running at http://localhost:5000");
