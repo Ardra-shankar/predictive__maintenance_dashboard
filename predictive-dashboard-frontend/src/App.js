@@ -138,7 +138,7 @@ function App() {
   return (
     <div className="App">
       <header className="dashboard-header">
-        <h1>🚀 Predictive Maintenance</h1>
+        <h1> Predictive Maintenance Dashboard</h1>
         <div className="stats-bar">
           <div className="stat-item">
             <span className="stat-label">Engines Monitored</span>
