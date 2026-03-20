@@ -1,25 +1,17 @@
-import joblib
+import pickle
 import sys
-import pandas as pd
-import os
+import numpy as np
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+model = pickle.load(open("rul_model.pkl","rb"))
 
-model = joblib.load(
-    os.path.join(BASE_DIR, "rul_model.pkl")
-)
+cycle = float(sys.argv[1])
+s2 = float(sys.argv[2])
+s11 = float(sys.argv[3])
+s15 = float(sys.argv[4])
 
-data = list(map(float, sys.argv[1:]))
+X = np.array([[cycle,s2,s11,s15]])
 
-feature_names = [
-'op1','op2','op3',
-'s1','s2','s3','s4','s5','s6','s7','s8','s9','s10',
-'s11','s12','s13','s14','s15','s16','s17','s18','s19','s20','s21'
+pred = model.predict(X)
 
-]
-
-df = pd.DataFrame([data], columns=feature_names)
-
-prediction = model.predict(df)
-
-print(prediction[0])
+print(pred[0])
+sys.stdout.flush()

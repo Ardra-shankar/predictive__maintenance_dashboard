@@ -1,67 +1,59 @@
-const express = require("express");
-const cors = require("cors");
+const express = require("express")
+const cors = require("cors")
+const { spawn } = require("child_process")
 
-const app = express();
-const PORT = 5000;
+const app = express()
+app.use(cors())
 
-app.use(cors());
-app.use(express.json());
+// -------- MULTI ENGINE STATE --------
+let engines = {
+   1: { cycle: 1, data: randomSensor() },
+   2: { cycle: 1, data: randomSensor() },
+   3: { cycle: 1, data: randomSensor() }
+}
 
-app.get("/", (req, res) => {
-    res.send("ML Backend Running ✅");
-});
+function randomSensor(){
+   return {
+      s2: 600 + Math.random()*50,
+      s11: 500 + Math.random()*40,
+      s15: 10 + Math.random()*5
+   }
+}
 
+// realtime simulation
+setInterval(()=>{
+   Object.keys(engines).forEach(id=>{
+      engines[id].cycle++
+      engines[id].data = randomSensor()
+   })
+},5000)
 
-//  DEMO ENGINE APIs 
+// -------- SENSOR API --------
+app.get("/api/sensors/:id",(req,res)=>{
+   const id = req.params.id
+   res.json({
+      engine: id,
+      cycle: engines[id].cycle,
+      ...engines[id].data
+   })
+})
 
-const demoEngines = [1,2,3,4,5];
+// -------- PREDICTION API --------
+app.get("/api/predict/:id",(req,res)=>{
+   const id = req.params.id
+   const e = engines[id]
 
-app.get("/api/engines", (req, res) => {
-    res.json(demoEngines);
-});
+   const py = spawn("python",[
+      "predict.py",
+      e.cycle,
+      e.data.s2,
+      e.data.s11,
+      e.data.s15
+   ])
 
-app.get("/api/engine/:unit", (req, res) => {
+   py.stdout.on("data",(data)=>{
+      res.json({ engine:id, rul: parseFloat(data.toString()) })
+   })
+})
 
-    const data = [];
-
-    for(let i=1;i<=50;i++){
-        data.push({
-            cycle:i,
-            s2_pressure:500+Math.random()*50,
-            s3_vibration:600+Math.random()*50,
-            s4_ratio:1400+Math.random()*20,
-            rul:120-i
-        });
-    }
-
-    res.json(data);
-});
-
-app.get("/api/stats",(req,res)=>{
-    res.json({
-        totalEngines:5,
-        totalCycles:250,
-        trainingSize:20631
-    });
-});
-
-
-// ================= ML PREDICTION =================
-
-app.post("/api/predict",(req,res)=>{
-
-    const predictedRUL =
-        Math.floor(70 + Math.random()*40);
-
-    res.json({
-        predictedRUL
-    });
-
-});
-
-
-// START SERVER 
-
-app.listen(PORT,()=>{
-    console.log("🚀 ML Backend Running at http://localhost:5000");
-});
+app.listen(5000,()=>console.log("Fleet ML Backend Running"))
