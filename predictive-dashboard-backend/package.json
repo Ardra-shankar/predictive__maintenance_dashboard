@@ -12,7 +12,8 @@
     "cors": "^2.8.6",
     "csv-parser": "^3.2.0",
     "express": "^4.22.1",
-    "ml-random-forest": "^2.1.0"
+    "ml-random-forest": "^2.1.0",
+    "mongoose": "^9.3.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.4"
