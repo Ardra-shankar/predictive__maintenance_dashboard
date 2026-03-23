@@ -47,8 +47,11 @@ def predict():
     X        = np.array([[cycle, s2, s11, s15]])
     X_scaled = scaler.transform(X)
 
-    rul  = max(0, int(round(lr.predict(X_scaled)[0])))
-    mtbf = max(rul, int(round(rf.predict(X_scaled)[0])))
+    rul        = max(0, int(round(lr.predict(X_scaled)[0])))
+    # MTBF = cycle + RUL = total expected engine lifetime
+    # RF predicts total lifetime; if it's less than cycle+rul, use cycle+rul
+    rf_mtbf    = int(round(rf.predict(X_scaled)[0]))
+    mtbf       = max(rf_mtbf, int(cycle) + rul)
     failure_risk = round(max(0, min(100, (1 - rul / max(mtbf, 1)) * 100)), 1)
 
     return jsonify({
@@ -72,7 +75,8 @@ def predict_batch():
             X        = np.array([[float(e["cycle"]), float(e["s2"]), float(e["s11"]), float(e["s15"])]])
             X_scaled = scaler.transform(X)
             rul      = max(0, int(round(lr.predict(X_scaled)[0])))
-            mtbf     = max(rul, int(round(rf.predict(X_scaled)[0])))
+            rf_mtbf  = int(round(rf.predict(X_scaled)[0]))
+            mtbf     = max(rf_mtbf, int(float(e["cycle"])) + rul)
             risk     = round(max(0, min(100, (1 - rul / max(mtbf, 1)) * 100)), 1)
             results.append({
                 "engine_id":    e.get("engine_id"),

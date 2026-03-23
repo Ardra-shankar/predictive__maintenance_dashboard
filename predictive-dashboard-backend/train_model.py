@@ -38,9 +38,10 @@ df.columns = cols
 max_cycle = df.groupby("id")["cycle"].max()
 df["RUL"]  = df.apply(lambda r: max_cycle[r["id"]] - r["cycle"], axis=1)
 
-# ── MTBF label (expected total life of the engine unit) ──────────────────────
-# Better target: actual max_cycle per engine — not cycle+RUL (that's a constant)
-df["MTBF"] = df["id"].map(max_cycle)
+# ── MTBF label ───────────────────────────────────────────────────────────────
+# MTBF = cycle + RUL = total expected engine lifetime at any given point
+# This varies per row as sensors degrade, giving RF something real to learn
+df["MTBF"] = df["cycle"] + df["RUL"]  # = max_cycle, but expressed as a regression target per row
 
 # ── Features & scaling ────────────────────────────────────────────────────────
 X = df[FEATURES].values

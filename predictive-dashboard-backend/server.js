@@ -59,11 +59,11 @@ function callMLBatch(engineInputs) {
     })
 }
 
-function fallbackPrediction(health) {
+function fallbackPrediction(health, cycle = 0) {
     const rul = Math.max(5, Math.round(health * 250))
     return {
         rul,
-        mtbf:         rul + 50,
+        mtbf:         cycle + rul,   // total expected lifetime = how far gone + remaining
         failure_risk: +((1 - health) * 100).toFixed(1),
         alert:        rul < ALERT_RUL,
         alert_level:  rul < 24 ? "critical" : rul < ALERT_RUL ? "warning" : "ok",
@@ -96,7 +96,7 @@ async function simulateFleet() {
     if (mlResponse.ok) mlResponse.results.forEach(r => { mlMap[r.engine_id] = r })
 
     fleetData = snapshots.map(e => {
-        const pred = mlMap[e.engine_id] || fallbackPrediction(e.health)
+        const pred = mlMap[e.engine_id] || fallbackPrediction(e.health, e.cycle)
         return { engine_id: e.engine_id, cycle: e.cycle, health: e.health,
                  sensors: { s2: e.s2, s11: e.s11, s15: e.s15 },
                  rul: pred.rul, mtbf: pred.mtbf, failure_risk: pred.failure_risk,
