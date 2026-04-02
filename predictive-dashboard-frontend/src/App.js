@@ -23,7 +23,7 @@ const CustomTooltip = ({ active, payload, label }) => {
       background: "#0b1f3a", border: "1px solid #1e3a5f",
       borderRadius: 8, padding: "10px 14px", fontSize: 12
     }}>
-      <div style={{ color: "#94a3b8", marginBottom: 4 }}>Cycle {label}</div>
+      <div style={{ color: "#e3e7ed", marginBottom: 4 }}>Cycle {label}</div>
       {payload.map((p, i) => (
         <div key={i} style={{ color: p.color }}>
           {p.name}: <strong>{p.value}</strong>
@@ -40,7 +40,7 @@ const Card = ({ title, value, color = "#fff", unit = "" }) => (
     borderRadius: 12, minWidth: 160, flex: 1,
     border: "1px solid #1e3a5f"
   }}>
-    <div style={{ fontSize: 11, color: "#64748b", letterSpacing: 1, marginBottom: 8 }}>
+    <div style={{ fontSize: 11, color: "#e5eaef", letterSpacing: 1, marginBottom: 8 }}>
       {title.toUpperCase()}
     </div>
     <div style={{ fontSize: 28, fontWeight: 800, color }}>
@@ -94,23 +94,23 @@ const AlertCard = ({ eng, onView }) => {
 
         {/* Metrics row */}
         <div style={{ display: "flex", gap: 20, fontSize: 12 }}>
-          <span style={{ color: "#94a3b8" }}>
+          <span style={{ color: "#dae4f1" }}>
             RUL: <strong style={{ color: isCritical ? "#ef4444" : "#f59e0b" }}>
               {eng.rul} cycles
             </strong>
           </span>
-          <span style={{ color: "#94a3b8" }}>
+          <span style={{ color: "#dae1ec" }}>
             Days Left: <strong style={{ color: isCritical ? "#ef4444" : "#f59e0b" }}>
               {rulToDays(eng.rul)}
             </strong>
           </span>
-          <span style={{ color: "#94a3b8" }}>
+          <span style={{ color: "#edf2fa" }}>
             Risk: <strong style={{ color: labelCol }}>{eng.failure_risk}%</strong>
           </span>
-          <span style={{ color: "#94a3b8" }}>
+          <span style={{ color: "#e2ebf8" }}>
             MTBF: <strong style={{ color: "#fff" }}>{eng.mtbf}</strong>
           </span>
-          <span style={{ color: "#94a3b8" }}>
+          <span style={{ color: "#f7faff" }}>
             Health: <strong style={{ color: "#a78bfa" }}>
               {eng.health != null ? (eng.health * 100).toFixed(1) : "—"}%
             </strong>
@@ -231,14 +231,14 @@ export default function App() {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div>
           <h1 style={{ margin: 0, fontSize: 22 }}>Predictive Maintenance Dashboard</h1>
-          <div style={{ fontSize: 12, color: "#64748b", marginTop: 4 }}>NASA CMAPSS </div>
+          <div style={{ fontSize: 14, color: "#e7eaee", marginTop: 4 }}>NASA CMAPSS </div>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <div style={{
             width: 8, height: 8, borderRadius: "50%", background: "#22c55e",
             boxShadow: "0 0 8px #22c55e", animation: "pulse 2s infinite"
           }} />
-          <span style={{ fontSize: 12, color: "#64748b" }}>LIVE · 5s refresh</span>
+          <span style={{ fontSize: 12, color: "#edf1f7" }}>LIVE · 5s refresh</span>
         </div>
       </div>
 
@@ -417,7 +417,7 @@ export default function App() {
 
           {/* Engine selector */}
           <div style={{ marginTop: 24, display: "flex", alignItems: "center", gap: 12 }}>
-            <span style={{ color: "#94a3b8" }}>Select Engine:</span>
+            <span style={{ color: "#eff5fd" }}>Select Engine:</span>
             <select
               value={engineId}
               onChange={e => setEngineId(parseInt(e.target.value))}
@@ -457,7 +457,7 @@ export default function App() {
 
           {/* Degradation chart */}
           <div style={{ marginTop: 32, background: "#0b1f3a", padding: 20, borderRadius: 12, border: "1px solid #1e3a5f" }}>
-            <h3 style={{ margin: "0 0 16px", fontSize: 14, color: "#94a3b8", letterSpacing: 1 }}>
+            <h3 style={{ margin: "0 0 16px", fontSize: 14, color: "#e3ebf6", letterSpacing: 1 }}>
               ENGINE {String(engineId).padStart(2, "0")} — RUL & MTBF DEGRADATION TREND
             </h3>
             {history.length === 0 ? (
@@ -496,3 +496,5 @@ export default function App() {
     </div>
   )
 }
+
+#thisisacomment
