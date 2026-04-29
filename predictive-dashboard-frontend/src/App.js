@@ -496,8 +496,3 @@ export default function App() {
     </div>
   )
 }
-
-#thisisacomment
-#thisis a commnet 
-# this  is a commenttt
-#this is a comment
